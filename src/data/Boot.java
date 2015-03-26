@@ -16,8 +16,16 @@ package data;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 
-
+//import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glOrtho;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 
 /**
  *
@@ -38,6 +46,23 @@ public class Boot {
         {
             e.printStackTrace();
         }
+        
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, 600, 400, 0, 1, -1);      // set up camera
+        glMatrixMode(GL_MODELVIEW);
+        
+        while (!Display.isCloseRequested())
+        {
+            glBegin(GL_LINES);
+            
+            glVertex2f(10, 10);
+            glVertex2f(100, 100);           
+            
+            Display.update();
+            Display.sync(60);
+        }
+        Display.destroy();
     }
     
     public static void main(String[] args)
