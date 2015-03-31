@@ -21,11 +21,20 @@ import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 
 //import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
 import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glVertex2f;
+
+import static data.helpers.Artist.*;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.newdawn.slick.opengl.Texture;
+
 
 /**
  *
@@ -34,31 +43,31 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 public class Boot {
     
     public Boot()
-    {
-        Display.setTitle("Tower Defense");
+    {       
+        BeginSession();
+        // Texture earthTex = null;
+        // Texture vegTex = null;
         
-        try
-        {
-            Display.setDisplayMode(new DisplayMode(600, 400));
-            Display.create();
-        }
-        catch(LWJGLException e)
-        {
-            e.printStackTrace();
-        }
+        // earthTex = QuickLoad("earth");
+        // vegTex = QuickLoad("veg");
         
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(0, 600, 400, 0, 1, -1);      // set up camera
-        glMatrixMode(GL_MODELVIEW);
+        Tile tile = new Tile(0, 0, 64, 64, TileType.Earth);
+        Tile tile2 = new Tile(0, 64, 64, 64, TileType.Veg);
         
         while (!Display.isCloseRequested())
         {
-            glBegin(GL_LINES);
+            tile.Draw();
+            tile2.Draw();
             
-            glVertex2f(10, 10);
-            glVertex2f(100, 100);           
+        //    DrawQuadTexture(tile.getTexture(), tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
+        //    DrawQuadTexture(tile2.getTexture(), tile2.getX(), tile2.getY(), tile2.getWidth(), tile2.getHeight());
+        //    DrawLine(20, 30, 10, 50);
+        //    DrawQuadTexture(earthTex, 0,  0, 64, 64);
+        //    DrawQuadTexture(vegTex, 64, 0, 64, 64);
             
+        //    DrawQuad(50, 50, 20, 20);
+        //    DrawQuad(350, 350, 10, 10);
+           
             Display.update();
             Display.sync(60);
         }
