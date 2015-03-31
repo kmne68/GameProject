@@ -51,13 +51,17 @@ public class Boot {
         // earthTex = QuickLoad("earth");
         // vegTex = QuickLoad("veg");
         
-        Tile tile = new Tile(0, 0, 64, 64, TileType.Earth);
-        Tile tile2 = new Tile(0, 64, 64, 64, TileType.Veg);
+        //Tile tile = new Tile(0, 0, 64, 64, TileType.Earth);
+        //Tile tile2 = new Tile(0, 64, 64, 64, TileType.Veg);
+        
+        TileGrid grid = new TileGrid();
         
         while (!Display.isCloseRequested())
         {
-            tile.Draw();
-            tile2.Draw();
+        //    tile.Draw();
+        //    tile2.Draw();
+          
+            grid.Draw();
             
         //    DrawQuadTexture(tile.getTexture(), tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
         //    DrawQuadTexture(tile2.getTexture(), tile2.getX(), tile2.getY(), tile2.getWidth(), tile2.getHeight());
