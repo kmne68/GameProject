@@ -31,6 +31,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import static data.helpers.Artist.*;
 import java.io.IOException;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.opengl.Texture;
@@ -53,8 +54,43 @@ public class Boot {
         
         //Tile tile = new Tile(0, 0, 64, 64, TileType.Earth);
         //Tile tile2 = new Tile(0, 64, 64, 64, TileType.Veg);
+        int tileType = 0;
+        Random randGen = new Random();
         
-        TileGrid grid = new TileGrid();
+        int[][] randMap = new int[15][20];
+        
+        for(int i = 0; i < 15; i++)
+        {
+            for (int j = 0; j < 20; j++)
+            {
+                tileType = randGen.nextInt(2);
+                randMap[i][j] = tileType;
+                System.out.print(tileType);
+            }
+                System.out.println();
+        }
+        
+     /*    int[][] map = {  
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        };       
+       */ 
+        TileGrid grid = new TileGrid(randMap);
+        
+
         
         while (!Display.isCloseRequested())
         {
