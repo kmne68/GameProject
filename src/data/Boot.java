@@ -54,7 +54,10 @@ public class Boot {
         
         //Tile tile = new Tile(0, 0, 64, 64, TileType.Earth);
         //Tile tile2 = new Tile(0, 64, 64, 64, TileType.Veg);
-        int tileType = 0;
+        
+        
+        // This Section randomizes tile styles.
+/*        int tileType = 0;
         Random randGen = new Random();
         
         int[][] randMap = new int[15][20];
@@ -63,34 +66,39 @@ public class Boot {
         {
             for (int j = 0; j < 20; j++)
             {
-                tileType = randGen.nextInt(2);
+                tileType = randGen.nextInt(3);
                 randMap[i][j] = tileType;
                 System.out.print(tileType);
             }
                 System.out.println();
         }
-        
-     /*    int[][] map = {  
+*/        
+         int[][] map = {  
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0,1,0,0,0},
+            {0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
         };       
-       */ 
-        TileGrid grid = new TileGrid(randMap);
         
-
+        TileGrid grid = new TileGrid(map);
+        
+        grid.SetTile(10, 7, TileType.Earth);
+        
+        // Change the type of the tile at 10, 3 to be the same as at tile 10, 2.
+        grid.SetTile(10, 3, grid.GetTile(10, 2).getType());
+        Enemy e = new Enemy(QuickLoad("enemy"), grid.GetTile(10, 10), 64, 64, 2);
+        
         
         while (!Display.isCloseRequested())
         {
@@ -98,7 +106,7 @@ public class Boot {
         //    tile2.Draw();
           
             grid.Draw();
-            
+            e.Draw();
         //    DrawQuadTexture(tile.getTexture(), tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
         //    DrawQuadTexture(tile2.getTexture(), tile2.getX(), tile2.getY(), tile2.getWidth(), tile2.getHeight());
         //    DrawLine(20, 30, 10, 50);

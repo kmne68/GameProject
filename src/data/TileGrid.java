@@ -18,9 +18,10 @@ public class TileGrid
     
     public Tile[][] map;
     
+    // Makes alternating strips of two tile types.
     public TileGrid()
     {
-        map = new Tile[20][15];
+        map = new Tile[WIDTH][HEIGHT];
         for(int i = 0; i < map.length; i++)
         {
             for(int j = 0; j < map[i].length; j++)
@@ -37,6 +38,8 @@ public class TileGrid
         }
     }
     
+    
+    
     public TileGrid(int[][] newMap)
     {
         map = new Tile[20][15];
@@ -44,13 +47,43 @@ public class TileGrid
         {
             for(int j = 0; j < map[i].length; j++)
             {
-                if (newMap[j][i] == 0)
+    /*            if (newMap[j][i] == 0)
                     map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Veg);
-                else
+                else if (newMap[j][i] == 1)
                     map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Earth);
+                else if (newMap[j][i] == 2)
+                    map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Water);
+    */            
+                switch(newMap[j][i])
+                {
+                    case 0:
+                        map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Veg);
+                        break;
+                    case 1:
+                        map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Earth);
+                        break;
+                    case 2:
+                        map[i][j] = new Tile(i * 64, j * 64, 64, 64, TileType.Water);
+                        break;
+                }        
             }
         }
     }
+    
+    // Sets a tile of a specific type in a specified location.
+    public void SetTile(int xCoord, int yCoord, TileType type) 
+    {
+        map[xCoord][yCoord] = new Tile(xCoord * 64, yCoord * 64, 64, 64, type);
+    }
+    
+    
+    // Returns information for the tile at the specified location.
+    public Tile GetTile(int xCoord, int yCoord)
+    {
+        return map[xCoord][yCoord];
+    }
+    
+    
     
     public void Draw()
     {
