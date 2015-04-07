@@ -98,20 +98,28 @@ public class Boot {
         
         // Change the type of the tile at 10, 3 to be the same as at tile 10, 2.
         grid.SetTile(10, 3, grid.GetTile(10, 2).getType());
-        Enemy e = new Enemy(QuickLoad("enemy"), grid.GetTile(10, 10), 64, 64, 50);
+        Enemy e = new Enemy(QuickLoad("enemy"), grid.GetTile(10, 10), 64, 64, 10);
+        
+        // Create a wave of enemies
+        Wave wave = new Wave(20, e);
+        
+        // Create Player
+        Player player = new Player(grid);
         
         
         while (!Display.isCloseRequested())
         {
             Clock.update();
-            e.Update();             // always do updates before drawing characters.
+        //    e.Update();             // always do updates before drawing characters.
         //    tile.Draw();
         //    tile2.Draw();
           
             grid.Draw();
+            wave.Update();
+            player.SetTile();
             
             // Draw enemy
-            e.Draw();
+        //    e.Draw();     No longer need explicit enemy draw()--handled by Wave()
         //    DrawQuadTexture(tile.getTexture(), tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight());
         //    DrawQuadTexture(tile2.getTexture(), tile2.getX(), tile2.getY(), tile2.getWidth(), tile2.getHeight());
         //    DrawLine(20, 30, 10, 50);

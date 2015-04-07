@@ -33,19 +33,148 @@ public class Enemy {
         this.height = height;
         this.health = health;
         this.speed = speed;
+        this.startTile = startTile;
     }
     
     public void Update()
     {
-        if (first)
-            first = false;
+        if (isFirst())
+            setFirst(false);
         else
-            x += Delta() * speed;
+            setX(getX() + Delta() * getSpeed());
         
     }
     
     public void Draw() 
     {
-        DrawQuadTexture(texture, x, y, width, height);
+        DrawQuadTexture(getTexture(), getX(), getY(), getWidth(), getHeight());
     }
+
+    /**
+     * @return the texture
+     */
+    public Texture getTexture() {
+        return texture;
+    }
+
+    /**
+     * @param texture the texture to set
+     */
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
+    /**
+     * @return the startTile
+     */
+    public Tile getStartTile() {
+        return startTile;
+    }
+
+    /**
+     * @param startTile the startTile to set
+     */
+    public void setStartTile(Tile startTile) {
+        this.startTile = startTile;
+    }
+
+    /**
+     * @return the width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * @param width the width to set
+     */
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    /**
+     * @return the height
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * @param height the height to set
+     */
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    /**
+     * @return the health
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    /**
+     * @param health the health to set
+     */
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    /**
+     * @return the speed
+     */
+    public float getSpeed() {
+        return speed;
+    }
+
+    /**
+     * @param speed the speed to set
+     */
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * @return the x
+     */
+    public float getX() {
+        return x;
+    }
+
+    /**
+     * @param x the x to set
+     */
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    /**
+     * @return the y
+     */
+    public float getY() {
+        return y;
+    }
+
+    /**
+     * @param y the y to set
+     */
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    /**
+     * @return the first
+     */
+    public boolean isFirst() {
+        return first;
+    }
+
+    /**
+     * @param first the first to set
+     */
+    public void setFirst(boolean first) {
+        this.first = first;
+    }
+    
+    
 }

@@ -9,6 +9,7 @@ import static data.helpers.Artist.DrawQuadTexture;
 import static data.helpers.Artist.QuickLoad;
 import org.newdawn.slick.opengl.Texture;
 
+
 /**
  *
  * @author Keith
@@ -114,8 +115,5 @@ public class Tile {
      */
     public void setType(TileType type) {
         this.type = type;
-    }
-    
-    
-    
+    }    
 }
