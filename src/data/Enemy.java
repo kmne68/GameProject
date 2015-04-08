@@ -1,9 +1,10 @@
 package data;
 
-
+import data.Checkpoint.*;
 import data.Tile;
 import static data.helpers.Artist.*;
 import static data.helpers.Clock.Delta;
+import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
 
 /*
@@ -23,8 +24,12 @@ public class Enemy {
     private int width, height, health;
     private float speed, x, y;
     private boolean first = true;       // for dealing with very large delta in Update() when first starting
+    private TileGrid grid;
     
-    public Enemy(Texture texture, Tile startTile, int width, int height, float speed)
+    private ArrayList<Checkpoint> checkpoints;
+    private int[] directions;
+    
+    public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed)
     {
         this.texture = texture;
         this.x = startTile.getX();
@@ -34,16 +39,54 @@ public class Enemy {
         this.health = health;
         this.speed = speed;
         this.startTile = startTile;
+        this.grid = grid;
+        this.checkpoints = new ArrayList<Checkpoint>();
+        this.directions = new int[2];           // correspond to x and y
+        
+        // X direction
+        this.directions[0] = 0;
+        // Y direction
+        this.directions[1] = 0;
     }
     
     public void Update()
     {
-        if (isFirst())
+        if (isFirst())              // Don't do anything the first time around since the clock state isn't known (I think)
             setFirst(false);
         else
-            setX(getX() + Delta() * getSpeed());
-        
+        {
+/*            if(pathContinues())
+            {
+                setX(getX() + Delta() * getSpeed());    // Change x value as time passes (moves right)
+            }
+*/        }
     }
+    
+    private int[] FindNextDirection(Tile start)
+    {
+        int[] direction = new int[2];
+        Tile up = grid.GetTile(start.getXPlace(), start.getYPlace() - 1);
+        Tile right = grid.GetTile(start.getXPlace() + 1, start.getYPlace());
+        Tile down = grid.GetTile(start.getXPlace(), start.getYPlace() + 1);
+        Tile left = grid.GetTile(start.getXPlace() - 1, start.getYPlace() - 1);
+        
+        return direction;
+    }
+    
+    
+    
+/*    private boolean pathContinues()
+    {
+        boolean answer = true;
+        
+        Tile myTile = grid.GetTile((int) (x / 64), (int) (y / 64));
+        Tile nextTile = grid.GetTile((int) (x / 64) + 1, (int) (y / 64));
+        
+        if(myTile.getType() != nextTile.getType())
+            answer = false;
+        return answer;
+    }
+*/    
     
     public void Draw() 
     {
@@ -174,6 +217,11 @@ public class Enemy {
      */
     public void setFirst(boolean first) {
         this.first = first;
+    }
+    
+    public TileGrid getTileGrid()
+    {
+        return grid;
     }
     
     

@@ -98,7 +98,7 @@ public class Boot {
         
         // Change the type of the tile at 10, 3 to be the same as at tile 10, 2.
         grid.SetTile(10, 3, grid.GetTile(10, 2).getType());
-        Enemy e = new Enemy(QuickLoad("enemy"), grid.GetTile(10, 10), 64, 64, 10);
+        Enemy e = new Enemy(QuickLoad("enemy"), grid.GetTile(10, 10), grid, 64, 64, 10);
         
         // Create a wave of enemies
         Wave wave = new Wave(20, e);
@@ -116,7 +116,8 @@ public class Boot {
           
             grid.Draw();
             wave.Update();
-            player.SetTile();
+        //    player.SetTile();     // From first go round of Player--colored tiles mouse hovered over
+            player.Update();
             
             // Draw enemy
         //    e.Draw();     No longer need explicit enemy draw()--handled by Wave()

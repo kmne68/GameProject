@@ -89,9 +89,9 @@ public class TileGrid
     
     
     // Returns information for the tile at the specified location.
-    public Tile GetTile(int xCoord, int yCoord)
+    public Tile GetTile(int xPlace, int yPlace)
     {
-        return map[xCoord][yCoord];
+        return map[xPlace][yPlace];
     }
     
     
