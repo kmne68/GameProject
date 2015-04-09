@@ -47,6 +47,7 @@ public class Enemy {
         this.directions[0] = 0;
         // Y direction
         this.directions[1] = 0;
+        directions = FindNextDirection(startTile);
     }
     
     public void Update()
@@ -55,6 +56,9 @@ public class Enemy {
             setFirst(false);
         else
         {
+            x += Delta() * directions[0];
+            y += Delta() * directions[1];
+            
 /*            if(pathContinues())
             {
                 setX(getX() + Delta() * getSpeed());    // Change x value as time passes (moves right)
@@ -62,6 +66,37 @@ public class Enemy {
 */        }
     }
     
+    
+    // Check if tiles in current direction are the same as what we're on now.
+    private Checkpoint FindNextCheckpoint(Tile start, int[] dir)
+    {
+        Tile next = null;
+        Checkpoint check = null;
+        
+        // Boolean to decide if next checkpoint is found
+        boolean found = false;
+        int counter = 1;
+        
+        while(!found)
+        {
+            if(start.getType() != grid.GetTile(start.getXPlace() + dir[0] * counter,
+                    start.getYPlace() + dir[1] * counter).getType());
+            {
+                // Make turn in the tile prior to the one we just checked. Move counter
+                // back 1.
+                found = true;
+                counter -= -1;
+                next = grid.GetTile(start.getXPlace() + dir[0] * counter,
+                    start.getYPlace() + dir[1] * counter);
+            }
+        }
+        counter++;
+        check = new Checkpoint(next, dir[0], dir[1]);
+        return check;
+    }
+    
+    // Uses enemy's current tile to determine whether it will continue to move on 
+    // contiguous tiles of the same type.
     private int[] FindNextDirection(Tile start)
     {
         int[] direction = new int[2];
@@ -70,6 +105,30 @@ public class Enemy {
         Tile down = grid.GetTile(start.getXPlace(), start.getYPlace() + 1);
         Tile left = grid.GetTile(start.getXPlace() - 1, start.getYPlace() - 1);
         
+        if(start.getType() == up.getType())
+        {
+            direction[0] = 0;
+            direction[1] = -1;
+        }
+        if(start.getType() == right.getType())
+        {
+            direction[0] = 1;
+            direction[1] = 0;
+        }
+        if(start.getType() == down.getType())
+        {
+            direction[0] = 0;
+            direction[1] = 1;
+        }
+        if(start.getType() == left.getType())
+        {
+            direction[0] = -1;
+            direction[1] = 0;
+        }
+        else
+        {
+            System.out.println("NO DIRECTION FOUND.");
+        }
         return direction;
     }
     
