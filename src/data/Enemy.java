@@ -21,7 +21,7 @@ public class Enemy {
     
     private Texture texture;
     private Tile startTile;
-    private int width, height, health;
+    private int width, height, health, currentCheckpoint;
     private float speed, x, y;
     private boolean first = true;       // for dealing with very large delta in Update() when first starting
     private TileGrid grid;
@@ -48,6 +48,52 @@ public class Enemy {
         // Y direction
         this.directions[1] = 0;
         directions = FindNextDirection(startTile);
+        this.currentCheckpoint = 0;
+        PopulateCheckpointList();
+    }
+    
+    // Populates the checkpoint list with each turn in the maze
+    private void PopulateCheckpointList()
+    {
+        checkpoints.add(FindNextCheckpoint(startTile, directions = FindNextDirection(startTile)));
+        
+        int counter = 0;
+        boolean cont = true;
+        while (cont)
+        {
+            int[] currentDirection = FindNextDirection(checkpoints.get(counter).getTile());
+            
+            // Check if a next direction/checkpoint exists and end after 20 chekpoints(arbitrary).
+            if(currentDirection[0] == 2 || counter == 20)
+            {
+                cont = false;
+            }
+            else
+            {
+                checkpoints.add(FindNextCheckpoint(checkpoints.get(counter).getTile(),
+                        directions = FindNextDirection(checkpoints.get(counter).getTile())));
+            }
+            counter++;
+        }
+    }
+    
+    
+    private boolean CheckpointReached()
+    {
+        boolean reached = false;
+        Tile t = checkpoints.get(currentCheckpoint).getTile();
+        
+        // Check if the position reached is within a variance of three pixels.
+        if(x > t.getX() - 3 &&                  // x and y are the current
+                x < t.getX() + 3 &&             // position of the enemy
+                y > t.getY() - 3 &&             // three is a buffer number
+                y < t.getY() + 3)               // of pixels
+        {                                       
+            reached = true;  
+            x = t.getX();   // Sets x and y to exactly where they need to be
+            y = t.getY();   // for this enemy.
+        }
+        return reached;
     }
     
     public void Update()
@@ -56,8 +102,17 @@ public class Enemy {
             setFirst(false);
         else
         {
-            x += Delta() * directions[0];
-            y += Delta() * directions[1];
+            if(CheckpointReached())
+            {
+                currentCheckpoint++;
+            }
+            else
+            {
+                x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
+                y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
+            }
+        //    x += Delta() * directions[0];
+        //    y += Delta() * directions[1];
             
 /*            if(pathContinues())
             {
@@ -80,17 +135,17 @@ public class Enemy {
         while(!found)
         {
             if(start.getType() != grid.GetTile(start.getXPlace() + dir[0] * counter,
-                    start.getYPlace() + dir[1] * counter).getType());
+                    start.getYPlace() + dir[1] * counter).getType())
             {
                 // Make turn in the tile prior to the one we just checked. Move counter
                 // back 1.
                 found = true;
-                counter -= -1;
+                counter -= 1;
                 next = grid.GetTile(start.getXPlace() + dir[0] * counter,
                     start.getYPlace() + dir[1] * counter);
             }
-        }
-        counter++;
+            counter++;
+        }       
         check = new Checkpoint(next, dir[0], dir[1]);
         return check;
     }
@@ -110,23 +165,25 @@ public class Enemy {
             direction[0] = 0;
             direction[1] = -1;
         }
-        if(start.getType() == right.getType())
+        else if(start.getType() == right.getType())
         {
             direction[0] = 1;
             direction[1] = 0;
         }
-        if(start.getType() == down.getType())
+        else if(start.getType() == down.getType())
         {
             direction[0] = 0;
             direction[1] = 1;
         }
-        if(start.getType() == left.getType())
+        else if(start.getType() == left.getType())
         {
             direction[0] = -1;
             direction[1] = 0;
         }
         else
         {
+            direction[0] = 2;
+            direction[1] = 2;
             System.out.println("NO DIRECTION FOUND.");
         }
         return direction;
