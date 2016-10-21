@@ -17,14 +17,14 @@ import static data.helpers.Clock.*;
 public class Wave {
     
     private float timeSinceLastSpawn, spawnTime;
-    private Enemy enemyType;
-    private ArrayList<Enemy> enemyList;
+    private Piece enemyType;
+    private ArrayList<Piece> enemyList;
     
-    public Wave(float spawnTime, Enemy enemyType)
+    public Wave(float spawnTime, Piece enemyType)
     {
         this.enemyType = enemyType;
         this.spawnTime = spawnTime;
-        enemyList = new ArrayList<Enemy>();
+        enemyList = new ArrayList<Piece>();
     }
     
     public void Update()
@@ -36,7 +36,7 @@ public class Wave {
             timeSinceLastSpawn = 0;
         }
         
-        for (Enemy e: enemyList)
+        for (Piece e: enemyList)
         {
             e.Update();
             e.Draw();
@@ -45,7 +45,7 @@ public class Wave {
     
     private void Spawn()
     {
-        enemyList.add(new Enemy(enemyType.getTexture(), enemyType.getStartTile(), enemyType.getTileGrid(), 64, 64, enemyType.getSpeed()));
+        enemyList.add(new Piece(enemyType.getTexture(), enemyType.getStartTile(), enemyType.getTileGrid(), 32, 32, enemyType.getSpeed()));
     }
     
 }

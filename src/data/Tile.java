@@ -42,12 +42,12 @@ public class Tile {
     
     public int getXPlace()
     {
-        return (int) x / 64;
+        return (int) x / 32;
     }
     
     public int getYPlace()
     {
-        return (int) y / 64;
+        return (int) y / 32;
     }
 
     /**

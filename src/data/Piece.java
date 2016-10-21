@@ -17,7 +17,7 @@ import org.newdawn.slick.opengl.Texture;
  *
  * @author Keith
  */
-public class Enemy {
+public class Piece {
     
     private Texture texture;
     private Tile startTile;
@@ -29,7 +29,7 @@ public class Enemy {
     private ArrayList<Checkpoint> checkpoints;
     private int[] directions;
     
-    public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed)
+    public Piece(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed)
     {
         this.texture = texture;
         this.x = startTile.getX();
@@ -49,11 +49,11 @@ public class Enemy {
         this.directions[1] = 0;
         directions = FindNextDirection(startTile);
         this.currentCheckpoint = 0;
-        PopulateCheckpointList();
+        // PopulateCheckpointList();
     }
     
     // Populates the checkpoint list with each turn in the maze
-    private void PopulateCheckpointList()
+ /*   private void PopulateCheckpointList()
     {
         checkpoints.add(FindNextCheckpoint(startTile, directions = FindNextDirection(startTile)));
         
@@ -64,7 +64,7 @@ public class Enemy {
             int[] currentDirection = FindNextDirection(checkpoints.get(counter).getTile());
             
             // Check if a next direction/checkpoint exists and end after 20 chekpoints(arbitrary).
-            if(currentDirection[0] == 2 || counter == 20)
+            if(currentDirection[0] == 2 || counter == 10)
             {
                 cont = false;
             }
@@ -75,10 +75,10 @@ public class Enemy {
             }
             counter++;
         }
-    }
+    } */
     
     
-    private boolean CheckpointReached()
+/*    private boolean CheckpointReached()
     {
         boolean reached = false;
         Tile t = checkpoints.get(currentCheckpoint).getTile();
@@ -94,13 +94,13 @@ public class Enemy {
             y = t.getY();   // for this enemy.
         }
         return reached;
-    }
+    } */
     
     public void Update()
     {
         if (isFirst())              // Don't do anything the first time around since the clock state isn't known (I think)
             setFirst(false);
-        else
+    /*    else
         {
             if(CheckpointReached())
             {
@@ -110,7 +110,7 @@ public class Enemy {
             {
                 x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
                 y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
-            }
+            } */
         //    x += Delta() * directions[0];
         //    y += Delta() * directions[1];
             
@@ -118,12 +118,12 @@ public class Enemy {
             {
                 setX(getX() + Delta() * getSpeed());    // Change x value as time passes (moves right)
             }
-*/        }
+*/     //   }
     }
     
     
     // Check if tiles in current direction are the same as what we're on now.
-    private Checkpoint FindNextCheckpoint(Tile start, int[] dir)
+ /*   private Checkpoint FindNextCheckpoint(Tile start, int[] dir)
     {
         Tile next = null;
         Checkpoint check = null;
@@ -149,6 +149,7 @@ public class Enemy {
         check = new Checkpoint(next, dir[0], dir[1]);
         return check;
     }
+    */
     
     // Uses enemy's current tile to determine whether it will continue to move on 
     // contiguous tiles of the same type.
