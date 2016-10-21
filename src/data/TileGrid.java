@@ -13,15 +13,15 @@ import static data.helpers.Artist.DrawQuadTexture;
  */
 public class TileGrid
 {
-    public static final int WIDTH = 20;
-    public static final int HEIGHT = 15;
+//    public static final int WIDTH = 20;
+//    public static final int HEIGHT = 15;
     
     public Tile[][] map;
     
     // Makes alternating strips of two tile types.
-    public TileGrid()
+ /*   public TileGrid()
     {
-        map = new Tile[WIDTH][HEIGHT];
+        map = new Tile[20][15];
         for(int i = 0; i < map.length; i++)
         {
             for(int j = 0; j < map[i].length; j++)
@@ -36,9 +36,20 @@ public class TileGrid
                 }
             }
         }
+    }  */
+    
+    
+    public TileGrid()
+    {
+        map = new Tile[20][15];
+        for (int i = 0; i < map.length; i++)
+        {
+            for (int j = 0; j < map[i].length; j++)
+            {
+                map[i][j] = new Tile(i * 64, j *  64, 64, 64, TileType.Veg);
+            }
+        }
     }
-    
-    
     
     public TileGrid(int[][] newMap)
     {
@@ -78,9 +89,9 @@ public class TileGrid
     
     
     // Returns information for the tile at the specified location.
-    public Tile GetTile(int xCoord, int yCoord)
+    public Tile GetTile(int xPlace, int yPlace)
     {
-        return map[xCoord][yCoord];
+        return map[xPlace][yPlace];
     }
     
     
