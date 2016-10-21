@@ -21,7 +21,7 @@ public class Enemy {
     
     private Texture texture;
     private Tile startTile;
-    private int width, height, health, currentCheckpoint;
+    private int width, height, health;
     private float speed, x, y;
     private boolean first = true;       // for dealing with very large delta in Update() when first starting
     private TileGrid grid;
@@ -47,53 +47,6 @@ public class Enemy {
         this.directions[0] = 0;
         // Y direction
         this.directions[1] = 0;
-        directions = FindNextDirection(startTile);
-        this.currentCheckpoint = 0;
-        PopulateCheckpointList();
-    }
-    
-    // Populates the checkpoint list with each turn in the maze
-    private void PopulateCheckpointList()
-    {
-        checkpoints.add(FindNextCheckpoint(startTile, directions = FindNextDirection(startTile)));
-        
-        int counter = 0;
-        boolean cont = true;
-        while (cont)
-        {
-            int[] currentDirection = FindNextDirection(checkpoints.get(counter).getTile());
-            
-            // Check if a next direction/checkpoint exists and end after 20 chekpoints(arbitrary).
-            if(currentDirection[0] == 2 || counter == 20)
-            {
-                cont = false;
-            }
-            else
-            {
-                checkpoints.add(FindNextCheckpoint(checkpoints.get(counter).getTile(),
-                        directions = FindNextDirection(checkpoints.get(counter).getTile())));
-            }
-            counter++;
-        }
-    }
-    
-    
-    private boolean CheckpointReached()
-    {
-        boolean reached = false;
-        Tile t = checkpoints.get(currentCheckpoint).getTile();
-        
-        // Check if the position reached is within a variance of three pixels.
-        if(x > t.getX() - 3 &&                  // x and y are the current
-                x < t.getX() + 3 &&             // position of the enemy
-                y > t.getY() - 3 &&             // three is a buffer number
-                y < t.getY() + 3)               // of pixels
-        {                                       
-            reached = true;  
-            x = t.getX();   // Sets x and y to exactly where they need to be
-            y = t.getY();   // for this enemy.
-        }
-        return reached;
     }
     
     public void Update()
@@ -102,18 +55,6 @@ public class Enemy {
             setFirst(false);
         else
         {
-            if(CheckpointReached())
-            {
-                currentCheckpoint++;
-            }
-            else
-            {
-                x += Delta() * checkpoints.get(currentCheckpoint).getxDirection() * speed;
-                y += Delta() * checkpoints.get(currentCheckpoint).getyDirection() * speed;
-            }
-        //    x += Delta() * directions[0];
-        //    y += Delta() * directions[1];
-            
 /*            if(pathContinues())
             {
                 setX(getX() + Delta() * getSpeed());    // Change x value as time passes (moves right)
@@ -121,37 +62,6 @@ public class Enemy {
 */        }
     }
     
-    
-    // Check if tiles in current direction are the same as what we're on now.
-    private Checkpoint FindNextCheckpoint(Tile start, int[] dir)
-    {
-        Tile next = null;
-        Checkpoint check = null;
-        
-        // Boolean to decide if next checkpoint is found
-        boolean found = false;
-        int counter = 1;
-        
-        while(!found)
-        {
-            if(start.getType() != grid.GetTile(start.getXPlace() + dir[0] * counter,
-                    start.getYPlace() + dir[1] * counter).getType())
-            {
-                // Make turn in the tile prior to the one we just checked. Move counter
-                // back 1.
-                found = true;
-                counter -= 1;
-                next = grid.GetTile(start.getXPlace() + dir[0] * counter,
-                    start.getYPlace() + dir[1] * counter);
-            }
-            counter++;
-        }       
-        check = new Checkpoint(next, dir[0], dir[1]);
-        return check;
-    }
-    
-    // Uses enemy's current tile to determine whether it will continue to move on 
-    // contiguous tiles of the same type.
     private int[] FindNextDirection(Tile start)
     {
         int[] direction = new int[2];
@@ -160,32 +70,6 @@ public class Enemy {
         Tile down = grid.GetTile(start.getXPlace(), start.getYPlace() + 1);
         Tile left = grid.GetTile(start.getXPlace() - 1, start.getYPlace() - 1);
         
-        if(start.getType() == up.getType())
-        {
-            direction[0] = 0;
-            direction[1] = -1;
-        }
-        else if(start.getType() == right.getType())
-        {
-            direction[0] = 1;
-            direction[1] = 0;
-        }
-        else if(start.getType() == down.getType())
-        {
-            direction[0] = 0;
-            direction[1] = 1;
-        }
-        else if(start.getType() == left.getType())
-        {
-            direction[0] = -1;
-            direction[1] = 0;
-        }
-        else
-        {
-            direction[0] = 2;
-            direction[1] = 2;
-            System.out.println("NO DIRECTION FOUND.");
-        }
         return direction;
     }
     

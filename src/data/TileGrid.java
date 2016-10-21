@@ -102,9 +102,8 @@ public class TileGrid
         {
             for (int j = 0; j < map[i].length; j++)
             {
-                map[i][j].Draw();
-//                Tile t = map[i][j];
-//                DrawQuadTexture(t.getTexture(), t.getX(), t.getY(), t.getWidth(), t.getHeight());
+                Tile t = map[i][j];
+                DrawQuadTexture(t.getTexture(), t.getX(), t.getY(), t.getWidth(), t.getHeight());
             }
         }
     }
