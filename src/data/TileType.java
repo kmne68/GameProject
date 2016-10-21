@@ -13,7 +13,7 @@ import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.String;
  */
 public enum TileType {
     
-    Veg("veg", true), Earth("earth", false);
+    Veg("veg", true), Earth("earth", false), Water("water", false);
     
     String textureName;
     boolean buildable;
